@@ -2,11 +2,12 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const productInput = document.querySelector('.product-input');
-  const addProductButton = document.querySelector('.todo-button');
+  const addProductButton = document.querySelector('.product-add-button');
   const productList = document.querySelector('.product-list');
   const position = document.querySelector('.position');
-  const btnclear = document.querySelector('#btn-clear');
-  const pp = document.querySelectorAll('.product-item');
+  const btnSoundAndClear = document.querySelector('.btns-sound-clear');
+  let btnClear = document.querySelector('#btn-clear');
+  let btnSound = document.querySelector('#btn-sound');
   let itemPosition = 0;
   let itemValue = [];
 
@@ -58,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       itemPosition++;
       checkPosition();
       saveProductsLS();
+      soundWater();
     }
   });
   productList.addEventListener('click', (event) => {
@@ -76,7 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   // click trash all
-  btnclear.addEventListener('click', deleteAllPositions);
+  btnClear.addEventListener('click', deleteAllPositions);
+  // click btn-sound
+  btnSound.addEventListener('click', changeBtnSound);
 
   // ---------- functions ----------
 
@@ -86,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       itemPosition--;
       checkPosition();
       saveProductsLS();
+      soundTrash();
   }
 
   // edit position
@@ -115,8 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(item.disabled) {
       const pf = item.parentElement;
       pf.classList.toggle('add-product');
+      vibrate();
       if(pf.classList.contains('add-product')) {
         productList.append(pf);
+      } else {
+        productList.prepend(pf);
       }
       saveProductsLS();
     } 
@@ -134,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     itemPosition = 0;
     saveProductsLS();
     checkPosition();
+    soundTrash();
   }
 
   //save products in localStorage
@@ -145,6 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('products', productList.innerHTML);
     localStorage.setItem('productValue', itemValue);
     localStorage.setItem('position', itemPosition);
+    localStorage.setItem('sound', btnSoundAndClear.innerHTML);
   }
 
   // loading localStorage
@@ -152,6 +162,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = localStorage.getItem('products');
     const dataValue = localStorage.getItem('productValue');
     const dataPosition = localStorage.getItem('position');
+    const sound = localStorage.getItem('sound');
+    if(sound != null) {
+      btnSoundAndClear.innerHTML = sound;
+      btnClear = document.querySelector('#btn-clear');
+      btnSound = document.querySelector('#btn-sound');
+      btnClear.addEventListener('click', deleteAllPositions);
+      btnSound.addEventListener('click', changeBtnSound);
+    }
     if(data) {
       productList.innerHTML = data;
       itemValue = dataValue.split(',');
@@ -162,6 +180,42 @@ document.addEventListener('DOMContentLoaded', () => {
       itemPosition = dataPosition;
       checkPosition();
     }
+  }
+
+  // change button sounds
+  function changeBtnSound() {
+    if(btnSound.classList.value === 'mute') {
+      btnSound.innerHTML = '<i class="fas fa-volume-up"></i>';
+      btnSound.classList.remove('mute');
+      btnSound.classList.add('add');
+    } else {
+      btnSound.innerHTML = '<i class="fas fa-volume-mute">';
+      btnSound.classList.remove('add');
+      btnSound.classList.add('mute');
+    }
+    saveProductsLS();
+  }
+
+  // sounds
+  function soundWater() {
+    if(!btnSound.classList.contains('mute')) {
+      let water = document.querySelector('#sound-water');
+      water.volume=0.2;
+      water.play();
+    }
+  }
+
+  function soundTrash() {
+    if(!btnSound.classList.contains('mute')) {
+      let trash = document.querySelector('#sound-trash');
+      trash.volume=0.2;
+      trash.play();
+    }
+  }
+
+  // vibrate for mobile
+  function vibrate() {
+    window.navigator.vibrate(100);
   }
 
   loadingLS();

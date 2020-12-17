@@ -18,12 +18,13 @@
     </header>
     <div class="row lists">
       <div class="col-12 list">
-        <div class="btn-clear">
-          <button id="btn-clear"><i class="fas fa-trash"></i></button>
+        <div class="btns-sound-clear">
+          <button id="btn-sound" class="mute"><i class="fas fa-volume-mute"></i></button>
+          <button id="btn-clear" class="mute"><i class="fas fa-trash"></i></button>
         </div>
         <form action="">
           <input class="product-input" type="text" placeholder="добавить товар">
-          <button class="todo-button" type="submit"><i class="fas fa-plus-square"></i></button>
+          <button class="product-add-button" type="submit"><i class="fas fa-plus-square"></i></button>
         </form>
         
         <div class="product-container">
@@ -37,7 +38,8 @@
       </div>
     </div>
   </section>
-
+  <audio id="sound-water" src="sounds/water.mp3" autostart="false"></audio>
+  <audio id="sound-trash" src="sounds/trash.mp3" autostart="false"></audio>
 
   <script src="js/script.js"></script>
 </body>

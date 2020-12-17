@@ -1,5 +1,6 @@
 $backColor: rgb(235, 178, 74);
 $backColorBlack: rgba(0, 0, 0, .2);
+$red:  rgb(161, 0, 0);
 
 @mixin btn-none {
   outline: none;
@@ -30,19 +31,25 @@ header {
   margin: auto;
   padding: 5px;
 
-  & .btn-clear {
+  & .btns-sound-clear {
   display: flex;
-  justify-content: flex-end;
-    & button {
+  justify-content: space-between;
+    & #btn-sound, #btn-clear {
       @include btn-none();
       margin: .2rem 0;
       font-size: 1.5rem;
       background: none;
       color:  rgba(121, 121, 121, .5);
       transition: all .3s ease;
-      &:hover {
-        color: rgb(161, 0, 0);
-      }
+    }
+    & i {
+      transition: all .3s ease;
+    }
+    & .mute:hover i{
+      color: $red;
+    }
+    & .add:hover i {
+      color: rgb(240, 240, 240);
     }
   }
   & form {
@@ -111,7 +118,7 @@ header {
       }
       
       & .trash-btn:hover {
-        color:  rgb(161, 0, 0);
+        color: $red;
       }
     }
   }
@@ -123,7 +130,7 @@ header {
   }
 }
 
-.fa-trash, .fa-edit {
+.fa-trash, .fa-edit, .fa-volume-mute, .fa-volume-up {
   pointer-events: none;
 }
 
