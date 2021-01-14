@@ -146,6 +146,8 @@ header {
   }
 }
 
+input[disabled] {pointer-events:none}
+
 @media screen and (max-width: 992px) {
   .lists {
     width: 100%;

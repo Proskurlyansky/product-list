@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
       editPosition(item);
     }
     // click product
-    else if(item.classList.value === 'product-item') {
+    else if(item.classList.contains('product')) {
       productFound(item);
     }
   });
@@ -117,14 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // when product found
   function productFound(item) {
-    if(item.disabled) {
-      const pf = item.parentElement;
-      pf.classList.toggle('add-product');
+    if(item.firstElementChild.disabled) {
+      item.classList.toggle('add-product');
       vibrate();
-      if(pf.classList.contains('add-product')) {
-        productList.append(pf);
+      if(item.classList.contains('add-product')) {
+        productList.append(item);
       } else {
-        productList.prepend(pf);
+        productList.prepend(item);
       }
       saveProductsLS();
     } 
